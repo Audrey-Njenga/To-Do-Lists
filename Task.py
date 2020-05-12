@@ -72,11 +72,11 @@ class PriorityQueue:
     # position to maintain min heap
     def insert(self, node):
         self.heap.append(node)
-        index = len(self.heap) - 1
-        while self.heap[index] < self.heap[self.parent(index)]:
-            self.swap(index, self.parent(index))
-            index = self.parent(index)
-        return self.heap
+        if len(self.heap) > 1:
+            index = len(self.heap) - 1
+            while self.heap[index] < self.heap[self.parent(index)]:
+                self.swap(index, self.parent(index))
+                index = self.parent(index)
 
     # pop elements from the list and add them to a new list.
     # items are popped in order of priority making new list ordered.
@@ -98,11 +98,13 @@ class PriorityQueue:
                     heap[pos], heap[least_node] = heap[least_node], heap[pos]
                     miniHeapify(least_node)
 
-        while len(heap) != 0:
+        if len(heap) != 0:
             result.append(heap[least])
             heap[least], heap[-1] = heap[-1], heap[least]
             heap.pop(-1)
             miniHeapify(0)
+        else:
+            result.append(heap[0])
 
         count = 0
         for x in result:
@@ -111,11 +113,15 @@ class PriorityQueue:
 
     # uses heapify to maintain heap invariant upon deletion
     def delete(self):
-        popped = self.heap[0]
-        self.heap[0] = self.heap[-1]
-        self.heap.pop(-1)
-        self.heapify(0)
-        return popped
+        if len(self.heap) > 0:
+            popped = self.heap[0]
+            self.heap[0] = self.heap[-1]
+            self.heap.pop(-1)
+            self.heapify(0)
+            return popped
+        else:
+            print("Nothing to remove")
+            exit()
 
 
 
