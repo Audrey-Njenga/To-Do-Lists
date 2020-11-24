@@ -1,6 +1,9 @@
 import random
+from Storage import *
 from Task import *
 to_do = PriorityQueue()
+storage_object.store(to_do)
+to_do = storage_object.read_data()
 
 
 def Category(cat):
@@ -30,6 +33,7 @@ def Process(choice):
                          "Enter 2 for reading \n Enter 3 for part-time \n"
                          "Enter 4 for leadership\n Enter 5 for hobby\n")
         to_do.insert(Task(task, deadline, Category(category)).getNode())
+        storage_object.store(to_do)
         count += 1
         print("Successfully inserted")
         ans = input("Would you like to return to the main menu? (Yes/No)").lower()
@@ -38,6 +42,7 @@ def Process(choice):
 
     elif choice == 2:
         to_do.delete()
+        storage_object.store(to_do)
         print("Successfully deleted")
         ans = input("Would you like to return to the main menu? (Yes/No)").lower()
         print("-" * 20)
